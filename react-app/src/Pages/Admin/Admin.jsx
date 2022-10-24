@@ -24,10 +24,10 @@ const Admin = () => {
         <div className="container">
             <div className="row">
                 <div className="col-md-6 offset-md-3">
-                    <img class="w-100" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRULOtzVJNuhZz0ox-N3J46ZnnnjHYyVNNYCQ&usqp=CAU" alt="" />
+                    <img className="w-100" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRULOtzVJNuhZz0ox-N3J46ZnnnjHYyVNNYCQ&usqp=CAU" alt="" />
                 </div>
             </div>
-            <div class="row mt-5">
+            <div className="row mt-5">
                 <div className="col-md-6 offset-md-3">
                     <AdminTabs data={data} />
                 </div>

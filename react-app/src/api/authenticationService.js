@@ -22,3 +22,23 @@ export const fetchUserData = () => {
         }
     })
 }
+
+export const addProduct = (newProductData) => {
+    return axios({
+        method: 'POST',
+        url: `${process.env.hostUrl || 'http://localhost:8080'}/admin/addProduct`,
+        headers: {
+            'Authorization': 'Bearer ' + getToken()
+        },
+        data: newProductData
+    })
+}
+export const getAllProduct = () => {
+    return axios({
+        method: 'GET',
+        url: `${process.env.hostUrl || 'http://localhost:8080'}/admin/allProduct`,
+        headers: {
+            'Authorization': 'Bearer ' + getToken()
+        }
+    })
+}
