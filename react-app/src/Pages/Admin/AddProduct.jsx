@@ -38,7 +38,7 @@ const AddProduct = () => {
     return (
         <div className="mt-5">
             <form className="row g-3" onSubmit={addProducts} noValidate={false}>
-                <div className="col-md-6">
+                <div className="col-md-4 offset-md-2">
                     <label htmlFor="inputState" className="form-label">Category</label>
                     <select name='category' id="inputState" value={newProductValue.category} onChange={inputHandle} className="form-select">
                         <option value=''>Choose...</option>
@@ -48,23 +48,23 @@ const AddProduct = () => {
                         <option>Women</option>
                     </select>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-4 ">
                     <label htmlFor="itemName" className="form-label">Item Name</label>
                     <input type="text" name='itemName' value={newProductValue.itemName} onChange={inputHandle} className="form-control" id="itemName" placeholder='Mobile' />
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-4 offset-md-2">
                     <label htmlFor="inputBrand" className="form-label">Brand</label>
                     <input type="text" name='brand' value={newProductValue.brand} onChange={inputHandle} className="form-control" id="inputBrand" placeholder='Samsung' />
                 </div>
-                <div className="col-6">
+                <div className="col-md-4 ">
                     <label htmlFor="inputPrice" className="form-label">Price</label>
                     <input type="number" name='price' value={newProductValue.price} onChange={inputHandle} className="form-control" id="inputPrice" placeholder="00.00" />
                 </div>
-                <div className="col-12">
+                <div className="col-md-8 offset-md-2">
                     <label htmlFor="inputDescription" className="form-label">Description</label>
                     <textarea type="text" name='description' value={newProductValue.description} onChange={inputHandle} className="form-control" id="inputDescription" placeholder="Enjoy seamless connectivity and an uninterrupted movie" />
                 </div>
-                <div className="col-12">
+                <div className="col-md-8 offset-md-2">
                     <button type="submit" className="btn btn-primary">Add</button>
                 </div>
             </form>
