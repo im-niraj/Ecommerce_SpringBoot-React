@@ -1,14 +1,21 @@
 import React, { useEffect, useState } from 'react'
-import { getAllProduct } from '../../api/authenticationService'
+import { getAllProduct, deleteProductById } from '../../api/authenticationService'
 const Products = () => {
     const [product, setProducts] = useState([]);
-    const [data, getData] = useState([]);
+    const [deleteFlag, setDeleteFlag] = useState(false);
     useEffect(() => {
         getAllProduct().then(response => {
             setProducts(response.data);
             console.log(response.data);
         })
-    }, [])
+    }, [deleteFlag])
+
+    const deleteProduct = (productId) => {
+        const message = deleteProductById(productId);
+        alert(message);
+        setDeleteFlag(!deleteFlag);
+    }
+
 
     return (
         <>
@@ -33,7 +40,7 @@ const Products = () => {
                             <td>{item.brand}</td>
                             <td>{item.price}</td>
                             <td>{item.description}</td>
-                            <td><i className="fa fa-pencil" aria-hidden="true"></i> <i className="fa fa-trash ms-2" aria-hidden="true"></i></td>
+                            <td><button onClick={() => deleteProduct(item.id)} className='btn btn-outline-success'><i className="fa fa-trash" aria-hidden="true"></i></button> </td>
                         </tr>
                     ))) : <tr>No data yet</tr>
                     }

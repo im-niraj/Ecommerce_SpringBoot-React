@@ -42,3 +42,13 @@ export const getAllProduct = () => {
         }
     })
 }
+
+export const deleteProductById = (productId) => {
+    return axios({
+        method: 'DELETE',
+        url: `${process.env.hostUrl || 'http://localhost:8080'}/admin/deleteProduct/${productId}`,
+        headers: {
+            'Authorization': 'Bearer ' + getToken()
+        }
+    })
+}
