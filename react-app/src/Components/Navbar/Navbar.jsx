@@ -60,6 +60,9 @@ const Navbar = () => {
                         <li className="nav-item">
                             <NavLink to="/Cart" aria-current="page" className={({ isActive }) => (isActive ? 'active nav-link disabled' : 'inactive nav-link disabled')} end>Cart</NavLink>
                         </li>
+                        <li className="nav-item">
+                            <NavLink to="/Admin" aria-current="page" className={({ isActive }) => (isActive ? 'active nav-link btn btn-primary' : 'inactive nav-link btn btn-primary')} end>Admin</NavLink>
+                        </li>
                         <form className="d-flex ms-5" role="search">
                             <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
                             <button className="btn btn-outline-success" type="submit">Search</button>

@@ -15,7 +15,6 @@ function Homepage(props) {
         })
     })
 
-
     return (
         <div>
             HomePage
