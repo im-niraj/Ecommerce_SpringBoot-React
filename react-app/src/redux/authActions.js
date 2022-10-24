@@ -1,25 +1,30 @@
-import {AUTH_REQ,AUTH_SUCCESS,AUTH_FAILURE} from './types';
+import * as AuthType from './types';
 
 
-export const authenticate=()=>{
+export const authenticate = () => {
     return {
-        type:AUTH_REQ
+        type: AuthType.AUTH_REQ
     }
 }
 
 
-export const authSuccess= (content)=>{
-    localStorage.setItem('USER_KEY',content.token);
+export const authSuccess = (content) => {
+    localStorage.setItem('USER_KEY', content.token);
     return {
-        type:AUTH_SUCCESS,
-        payload:content
+        type: AuthType.AUTH_SUCCESS,
+        payload: content
     }
 }
 
-export const authFailure=(error)=>{
+export const authFailure = (error) => {
     return {
-        type:AUTH_FAILURE,
-        payload:error
+        type: AuthType.AUTH_FAILURE,
+        payload: error
     }
 }
 
+export const authLogout = () => {
+    return {
+        type: AuthType.AUTH_LOGOUT
+    }
+}

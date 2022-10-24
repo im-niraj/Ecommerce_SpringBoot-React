@@ -25,32 +25,32 @@ public class MyMartApplication {
 	}
 
 
-	@PostConstruct
-	protected void init() {
-		List<Authority> authorityList=new ArrayList<>();
-		authorityList.add(createAuthority("USER","User role"));
-		authorityList.add(createAuthority("ADMIN","Admin role"));
-		User user=new User();
-		user.setUserName("niraj101");
-		user.setFirstName("Niraj");
-		user.setLastName("Kumar");
-		user.setPassword(passwordEncoder.encode("niraj@101"));
-		user.setEnabled(true);
-		user.setAuthorities(authorityList);
-		userRepository.save(user);
-
-
-		authorityList=new ArrayList<>();
-		authorityList.add(createAuthority("USER","User role"));
-		user=new User();
-		user.setUserName("roshan101");
-		user.setFirstName("Roshan");
-		user.setLastName("Singh");
-		user.setPassword(passwordEncoder.encode("roshan@101"));
-		user.setEnabled(true);
-		user.setAuthorities(authorityList);
-		userRepository.save(user);
-	}
+//	@PostConstruct
+//	protected void init() {
+//		List<Authority> authorityList=new ArrayList<>();
+//		authorityList.add(createAuthority("USER","User role"));
+//		authorityList.add(createAuthority("ADMIN","Admin role"));
+//		User user=new User();
+//		user.setUserName("niraj101");
+//		user.setFirstName("Niraj");
+//		user.setLastName("Kumar");
+//		user.setPassword(passwordEncoder.encode("niraj@101"));
+//		user.setEnabled(true);
+//		user.setAuthorities(authorityList);
+//		userRepository.save(user);
+//
+//
+//		authorityList=new ArrayList<>();
+//		authorityList.add(createAuthority("USER","User role"));
+//		user=new User();
+//		user.setUserName("roshan101");
+//		user.setFirstName("Roshan");
+//		user.setLastName("Singh");
+//		user.setPassword(passwordEncoder.encode("roshan@101"));
+//		user.setEnabled(true);
+//		user.setAuthorities(authorityList);
+//		userRepository.save(user);
+//	}
 
 
 	private Authority createAuthority(String roleCode,String roleDescription) {

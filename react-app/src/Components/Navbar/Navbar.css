@@ -34,7 +34,8 @@
     align-items: center;
 
 }
-.loginsignup button{
+.loginsignup a{
+    text-decoration: none;
     margin-left: 10px;
     padding: 8px 13px;
     border: 0;

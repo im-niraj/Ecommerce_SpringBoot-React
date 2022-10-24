@@ -1,78 +1,110 @@
-import React,{useState} from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect, useState } from 'react';
 import { userLogin } from '../../api/authenticationService';
-import { authenticate, authFailure, authSuccess } from '../../redux/authActions';
+import { useNavigate } from 'react-router-dom';
+import { authenticate, authFailure, authSuccess, authLogout } from '../../redux/authActions';
+import { useDispatch, useSelector } from 'react-redux'
 import './login.css';
 
-const Login = ({loading, error, ...props}) => {
-    const [values, setValues] = useState({
+
+const Login = () => {
+    const state = useSelector((state) => state);
+    const dispatch = useDispatch();
+    const history = useNavigate();
+    const [loginData, setLoginData] = useState({
         userName: '',
         password: ''
     });
 
-    const handleSubmit=(evt)=>{
+
+    const handleSubmit = (evt) => {
         evt.preventDefault();
-        props.authenticate();
-
-        userLogin(values).then((response)=>{
-
-            console.log("response",response);
-            if(response.status===200){
-                props.setUser(response.data);
-                props.history.push('/dashboard');
+        dispatch(authenticate());
+        userLogin(loginData).then((response) => {
+            if (response.status === 200) {
+                dispatch(authSuccess(response.data));
+                history('/home')
             }
-            else{
-                props.loginFailure('Something Wrong!Please Try Again'); 
+            else {
+                dispatch(authFailure('Something Wrong!Please Try Again'));
             }
-        }).catch((err)=>{
-            if(err && err.response){
-                switch(err.response.status){
+        }).catch((err) => {
+            if (err && err.response) {
+                switch (err.response.status) {
                     case 401:
                         console.log("401 status");
-                        props.loginFailure("Authentication Failed.Bad Credentials");
+                        dispatch(authFailure("Authentication Failed.Bad Credentials"));
                         break;
                     default:
-                        props.loginFailure('Something Wrong!Please Try Again'); 
+                        dispatch(authFailure('Something Wrong!Please Try Again'));
                 }
             }
-            else{
-                props.loginFailure('Something Wrong!Please Try Again');
+            else {
+                dispatch(authFailure('Something Wrong!Please Try Again'));
             }
         });
         //console.log("Loading again",loading);
+
     }
     const handleChange = (e) => {
         e.persist();
-        setValues(values => ({
+        setLoginData(values => ({
             ...values,
             [e.target.name]: e.target.value
         }));
     };
+    const logOut = () => {
+        localStorage.clear();
+        dispatch(authLogout());
+        history('/');
+    }
+
+    useEffect(() => {
+        logOut();
+    }, []);
+
     return (
-        <div>
-            <form onSubmit={handleSubmit} noValidate={false}>
-                <input type="text"  placeholder='username' id="userName" name="userName" minLength={5} value={values.userName} onChange={handleChange} required/>
-                <input type="password" name="password" id="password" placeholder='password' minLength={8} value={values.password} onChange={handleChange} required/>
-                <button type='submit'>Login</button>
-            </form>
-        </div>
+
+        <form className=" gx-3 gy-2 align-items-center w-100 p-3" onSubmit={handleSubmit} noValidate={false}>
+
+            <div className="col-sm-3 mt-3">
+                <div className="input-group">
+                    <div className="input-group-text">Username</div>
+                    <input type="text" className="form-control" id="userName" name='userName' value={loginData.userName} onChange={handleChange} placeholder="Username" />
+                </div>
+            </div>
+            <div className="col-sm-3 mt-3">
+                <div className="input-group">
+                    <div className="input-group-text">Password&nbsp;</div>
+                    <input type="password" className="form-control" id="password" name='password' value={loginData.password} onChange={handleChange} placeholder="Password" />
+                </div>
+            </div>
+            {/* <div className="col-sm-3">
+                <select className="form-select" id="specificSizeSelect">
+                    <option selected>Choose...</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+            </div> */}
+            {/* <div className="col-auto">
+                <div className="form-check">
+                    <input className="form-check-input" type="checkbox" id="autoSizingCheck2" />
+                    <label className="form-check-label" for="autoSizingCheck2">
+                        Are You Admin
+                    </label>
+                </div>
+            </div> */}
+            <div className="col-auto mt-3">
+                <button type="submit" className="btn btn-primary">Submit</button>
+                {state.loading && (
+                    <span className="ms-2 fw-bold">Loading...</span>
+                )}
+
+            </div>
+
+        </form>
+
     );
 }
 
-const mapStateToProps=({auth}) => {
-    console.log("state ",auth);
-    return {
-        loading : auth.loading,
-        error : auth.error
-    }
-}
-
-const maptDispatchToProps = ({dispatch}) => {
-    return {
-        authenticate : () => dispatch(authenticate()),
-        setUser : (data) => dispatch(authSuccess(data)),
-        loginFailure : (message) => dispatch(authFailure(message))
-    }
-}
-
-export default connect(mapStateToProps, maptDispatchToProps)(Login);
+export default Login;
