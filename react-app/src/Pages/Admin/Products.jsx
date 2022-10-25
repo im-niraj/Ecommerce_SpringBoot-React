@@ -6,14 +6,20 @@ const Products = () => {
     useEffect(() => {
         getAllProduct().then(response => {
             setProducts(response.data);
-            console.log(response.data);
         })
     }, [deleteFlag])
 
     const deleteProduct = (productId) => {
-        const message = deleteProductById(productId);
-        alert(message);
-        setDeleteFlag(!deleteFlag);
+        deleteProductById(productId).then(res => {
+            alert(res);
+            setDeleteFlag(!deleteFlag);
+        });
+        // console.log(message);
+        // alert(message);
+
+    }
+    const editProduct = (productId) => {
+        console.log("Edit Proudct", productId);
     }
 
 
@@ -40,9 +46,12 @@ const Products = () => {
                             <td>{item.brand}</td>
                             <td>{item.price}</td>
                             <td>{item.description}</td>
-                            <td><button onClick={() => deleteProduct(item.id)} className='btn btn-outline-success'><i className="fa fa-trash" aria-hidden="true"></i></button> </td>
+                            <td className='d-flex justify-content-center'>
+                                <button onClick={() => editProduct(item.id)} className='btn btn-outline-primary'><i className="fa fa-pencil" aria-hidden="true"></i></button>
+                                <button onClick={() => deleteProduct(item.id)} className='btn btn-outline-danger ms-2'><i className="fa fa-trash" aria-hidden="true"></i></button>
+                            </td>
                         </tr>
-                    ))) : <tr>No data yet</tr>
+                    ))) : <tr><td colSpan={6}>No data yet</td></tr>
                     }
                 </tbody>
             </table>

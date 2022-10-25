@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./Components/Navbar/Navbar";
 import Home from "./Pages/Homepage/Homepage"
@@ -7,7 +7,15 @@ import Login from "./Pages/loginSignup/Login";
 import Footer from "./Components/Footer/Footer";
 import Admin from "./Pages/Admin/Admin";
 import About from "./Pages/About/About";
+import { useDispatch } from "react-redux";
+import { userInfoFetched } from "./redux/authActions";
 function App() {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(userInfoFetched(JSON.parse(localStorage.getItem("UserData"))));
+    }, []);
+
     return (
         <BrowserRouter>
             <Navbar />

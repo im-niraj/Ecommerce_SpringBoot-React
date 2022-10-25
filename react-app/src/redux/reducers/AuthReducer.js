@@ -28,6 +28,7 @@ export const auth = (state = initialState, action) => {
     }
 }
 
+
 export const userInfo = (state = {}, action) => {
     switch (action.type) {
         case ActionType.USER_INFO_FETCHED:

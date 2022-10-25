@@ -1,38 +1,56 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from "react-router-dom";
-
+import { userInfoLost } from '../../redux/authActions';
+import { PhoneIcon, AddIcon, WarningIcon } from '@chakra-ui/icons'
 
 const Navbar = () => {
     const state = useSelector((state) => state);
     const history = useNavigate();
+    const dispatch = useDispatch();
     const userHandler = () => {
-        if (state.userInfo.user) {
-            if (Object.keys(state.userInfo.user).length > 0) {
+        if (Object.keys(state.userInfo).length > 0) {
+            if (state.userInfo.user !== null && Object.keys(state.userInfo.user).length > 0) {
                 const { firstName, lastName, userName, roles } = state.userInfo.user;
                 return (
                     <>
+
                         <li className="nav-item mx-2">
-                            <span className='fs-4'>{firstName} {lastName}</span>
+                            <span className='fs-4 text-secondary'><i className="fas fa-user fs-4 mx-1 text-warning"></i>{firstName} {lastName}</span>
                         </li>
                         {roles && roles.filter(value => value.roleCode === 'ADMIN').length > 0 &&
                             <li className="nav-item mx-2">
                                 <NavLink to="/Admin" aria-current="page" className={({ isActive }) => (isActive ? 'active btn btn-success' : 'inactive btn btn-success')} end>Admin</NavLink>
                             </li>
                         }
-                        <li className="nav-item">
-                            <button className="btn btn-primary" onClick={() => logOut()} type="submit">LogOut</button>
+                        {roles && roles.filter(value => value.roleCode === 'USER').length > 0 &&
+                            <li className="nav-item ">
+                                <NavLink to="/Cart" aria-current="page" className={({ isActive }) => (isActive ? 'active btn btn-primary position-relative' : 'inactive btn btn-primary position-relative')} end>Cart
+                                    <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark">
+                                        99
+                                    </span>
+                                </NavLink>
+                            </li>
+                        }
+                        <li className="nav-item ms-3">
+                            <button className="btn btn-danger" onClick={() => logOut()} type="submit">LogOut</button>
                         </li>
                     </>
                 )
             }
             else {
                 return (
-                    // <NavLink className="btn btn-success fw-bold" to="/" role="button">LogIn</NavLink>
                     <button className="btn btn-success" onClick={() => logIn()} type="submit">LogIn</button>
                 )
             }
+
         }
+        else {
+            return (
+                <button className="btn btn-success" onClick={() => logIn()} type="submit">LogIn</button>
+            )
+        }
+
 
     }
     useEffect(() => {
@@ -41,10 +59,12 @@ const Navbar = () => {
 
 
     const logOut = () => {
+        dispatch(userInfoLost());
         localStorage.clear();
         history('/');
     }
     const logIn = () => {
+        dispatch(userInfoLost());
         localStorage.clear();
         history('/');
     }
@@ -66,9 +86,6 @@ const Navbar = () => {
                         <li className="nav-item">
                             <NavLink to="/About" aria-current="page" className={({ isActive }) => (isActive ? 'active nav-link' : 'inactive nav-link')} end>About</NavLink>
                         </li>
-                        <li className="nav-item">
-                            <NavLink to="/Cart" aria-current="page" className={({ isActive }) => (isActive ? 'active nav-link disabled' : 'inactive nav-link disabled')} end>Cart</NavLink>
-                        </li>
                         <form className="d-flex ms-5" role="search">
                             <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
                             <button className="btn btn-outline-success" type="submit">Search</button>
@@ -76,9 +93,7 @@ const Navbar = () => {
                     </ul>
                     <div className="userData">
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li className="nav-item">
-                                <i className="fas fa-user fs-4 mx-3 "></i>
-                            </li>
+
                             {userHandler()}
                         </ul>
                     </div>

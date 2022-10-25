@@ -11,16 +11,11 @@ function Homepage(props) {
     const dispatch = useDispatch();
 
 
+
     useEffect(() => {
-        fetchUserData().then((response) => {
-            dispatch(userInfoFetched(response.data));
-        }).catch((e) => {
-            dispatch(userInfoLost());
-            // console.log("Error: ", e);
-            alert("You have to login first...")
-            history('/')
-        })
-    }, [])
+        dispatch(userInfoFetched(JSON.parse(localStorage.getItem("UserData"))));
+    }, []);
+
 
     return (
         <div>

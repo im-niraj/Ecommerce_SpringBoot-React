@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { userLogin } from '../../api/authenticationService';
+import { userLogin, fetchUserData } from '../../api/authenticationService';
 import { useNavigate } from 'react-router-dom';
-import { authenticate, authFailure, authSuccess, userInfoLost } from '../../redux/authActions';
+import { authenticate, authFailure, authSuccess, userInfoLost, userInfoFetched } from '../../redux/authActions';
 import { useDispatch, useSelector } from 'react-redux'
 import './login.css';
 
@@ -22,7 +22,16 @@ const Login = () => {
         userLogin(loginData).then((response) => {
             if (response.status === 200) {
                 dispatch(authSuccess(response.data));
-                history('/home')
+                fetchUserData().then((response) => {
+                    const data = response.data;
+                    localStorage.setItem("UserData", JSON.stringify(data));
+                    dispatch(userInfoFetched(response.data));
+                    history('/home')
+                }).catch((e) => {
+                    dispatch(userInfoLost());
+                    alert("You have to login first...")
+                    history('/')
+                })
             }
             else {
                 dispatch(authFailure('Something Wrong!Please Try Again'));
@@ -78,22 +87,6 @@ const Login = () => {
                     <input type="password" className="form-control" id="password" name='password' value={loginData.password} onChange={handleChange} placeholder="Password" />
                 </div>
             </div>
-            {/* <div className="col-sm-3">
-                <select className="form-select" id="specificSizeSelect">
-                    <option selected>Choose...</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
-            </div> */}
-            {/* <div className="col-auto">
-                <div className="form-check">
-                    <input className="form-check-input" type="checkbox" id="autoSizingCheck2" />
-                    <label className="form-check-label" for="autoSizingCheck2">
-                        Are You Admin
-                    </label>
-                </div>
-            </div> */}
             <div className="col-auto mt-3">
                 <button type="submit" className="btn btn-primary">Submit</button>
                 {state.loading && (
