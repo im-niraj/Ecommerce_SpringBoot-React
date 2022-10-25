@@ -1,9 +1,9 @@
-import * as AuthType from './types';
+import { ActionType } from './ActionType';
 
 
 export const authenticate = () => {
     return {
-        type: AuthType.AUTH_REQ
+        type: ActionType.AUTH_REQ
     }
 }
 
@@ -11,33 +11,47 @@ export const authenticate = () => {
 export const authSuccess = (content) => {
     localStorage.setItem('USER_KEY', content.token);
     return {
-        type: AuthType.AUTH_SUCCESS,
+        type: ActionType.AUTH_SUCCESS,
         payload: content
     }
 }
 
 export const authFailure = (error) => {
     return {
-        type: AuthType.AUTH_FAILURE,
+        type: ActionType.AUTH_FAILURE,
         payload: error
     }
 }
 
 export const authLogout = () => {
     return {
-        type: AuthType.AUTH_LOGOUT
+        type: ActionType.AUTH_LOGOUT
     }
 }
 
 export const userInfoFetched = (userData) => {
     return {
-        type: AuthType.USER_INFO_FETCHED,
+        type: ActionType.USER_INFO_FETCHED,
         payload: userData
     }
 }
 
 export const userInfoLost = () => {
     return {
-        type: AuthType.USER_INFO_LOST
+        type: ActionType.USER_INFO_LOST
     }
 }
+
+
+export const selectedProduct = (products) => {
+    return {
+        type: ActionType.SELECTED_PRODUCT,
+        payload: products
+    }
+};
+
+export const removeSelectedProduct = () => {
+    return {
+        type: ActionType.REMOVE_SELECTED_PRODUCT,
+    };
+};

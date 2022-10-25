@@ -42,6 +42,15 @@ export const getAllProduct = () => {
         }
     })
 }
+export const getProductById = (productId) => {
+    return axios({
+        method: 'GET',
+        url: `${process.env.hostUrl || 'http://localhost:8080'}/admin/product/${productId}`,
+        headers: {
+            'Authorization': 'Bearer ' + getToken()
+        }
+    })
+}
 
 export const deleteProductById = (productId) => {
     return axios({

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from "react-router-dom";
 import { userInfoLost } from '../../redux/authActions';
-import { PhoneIcon, AddIcon, WarningIcon } from '@chakra-ui/icons'
 
 const Navbar = () => {
     const state = useSelector((state) => state);
@@ -71,7 +70,7 @@ const Navbar = () => {
 
     return (
 
-        <nav className="navbar navbar-expand-lg bg-light" >
+        <nav className="navbar navbar-expand-lg bg-light sticky-top" >
 
             <div className="container-fluid">
                 <a className="navbar-brand" href="#">MyMart</a>

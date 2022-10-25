@@ -1,4 +1,4 @@
-import * as ActionType from '../types';
+import { ActionType } from '../ActionType';
 
 
 const initialState = {
@@ -36,6 +36,15 @@ export const userInfo = (state = {}, action) => {
             return Object.assign({}, state, { user: data });
         case ActionType.USER_INFO_LOST:
             return Object.assign({}, state, { user: {} });
+        default: return state;
+    }
+}
+
+
+export const selectedProductReducer = (state = {}, { type, payload }) => {
+    switch (type) {
+        case ActionType.SELECTED_PRODUCT: return { ...state, ...payload };
+        case ActionType.REMOVE_SELECTED_PRODUCT: return {};
         default: return state;
     }
 }
