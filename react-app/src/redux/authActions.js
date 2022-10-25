@@ -28,3 +28,16 @@ export const authLogout = () => {
         type: AuthType.AUTH_LOGOUT
     }
 }
+
+export const userInfoFetched = (userData) => {
+    return {
+        type: AuthType.USER_INFO_FETCHED,
+        payload: userData
+    }
+}
+
+export const userInfoLost = () => {
+    return {
+        type: AuthType.USER_INFO_LOST
+    }
+}

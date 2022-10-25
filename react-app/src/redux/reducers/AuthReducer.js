@@ -1,4 +1,4 @@
-import { AUTH_REQ, AUTH_SUCCESS, AUTH_FAILURE, AUTH_LOGOUT } from '../types';
+import * as ActionType from '../types';
 
 
 const initialState = {
@@ -8,19 +8,19 @@ const initialState = {
 };
 
 
-const auth = (state = initialState, action) => {
+export const auth = (state = initialState, action) => {
     switch (action.type) {
-        case AUTH_REQ:
+        case ActionType.AUTH_REQ:
             return { ...state, error: '', loading: true };
 
-        case AUTH_SUCCESS:
+        case ActionType.AUTH_SUCCESS:
             const data = action.payload;
             return { ...state, error: '', loading: false, user: data };
 
-        case AUTH_FAILURE:
+        case ActionType.AUTH_FAILURE:
             const error = action.payload;
             return { ...state, loading: false, error: error };
-        case AUTH_LOGOUT:
+        case ActionType.AUTH_LOGOUT:
             return { state, loading: false };
 
         default:
@@ -28,5 +28,13 @@ const auth = (state = initialState, action) => {
     }
 }
 
-
-export default auth;
+export const userInfo = (state = {}, action) => {
+    switch (action.type) {
+        case ActionType.USER_INFO_FETCHED:
+            const data = action.payload;
+            return Object.assign({}, state, { user: data });
+        case ActionType.USER_INFO_LOST:
+            return Object.assign({}, state, { user: {} });
+        default: return state;
+    }
+}

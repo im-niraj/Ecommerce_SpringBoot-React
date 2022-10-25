@@ -5,38 +5,47 @@ import { NavLink, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
     const state = useSelector((state) => state);
-    const [userData, setUserData] = useState({});
     const history = useNavigate();
     const userHandler = () => {
-        if (userData) {
-            return (
-                <>
-                    <li className="nav-item mx-2">
-                        <span className='fs-4'>{userData.firstName} {userData.lastName}</span>
-                    </li>
-                    <li className="nav-item">
-                        <button className="btn btn-primary" onClick={() => logOut()} type="submit">LogOut</button>
-                    </li>
-                </>
-            )
+        if (state.userInfo.user) {
+            if (Object.keys(state.userInfo.user).length > 0) {
+                const { firstName, lastName, userName, roles } = state.userInfo.user;
+                return (
+                    <>
+                        <li className="nav-item mx-2">
+                            <span className='fs-4'>{firstName} {lastName}</span>
+                        </li>
+                        {roles && roles.filter(value => value.roleCode === 'ADMIN').length > 0 &&
+                            <li className="nav-item mx-2">
+                                <NavLink to="/Admin" aria-current="page" className={({ isActive }) => (isActive ? 'active btn btn-success' : 'inactive btn btn-success')} end>Admin</NavLink>
+                            </li>
+                        }
+                        <li className="nav-item">
+                            <button className="btn btn-primary" onClick={() => logOut()} type="submit">LogOut</button>
+                        </li>
+                    </>
+                )
+            }
+            else {
+                return (
+                    // <NavLink className="btn btn-success fw-bold" to="/" role="button">LogIn</NavLink>
+                    <button className="btn btn-success" onClick={() => logIn()} type="submit">LogIn</button>
+                )
+            }
         }
-        else {
-            return (
-                // <NavLink className="btn btn-success fw-bold" to="/" role="button">LogIn</NavLink>
-                <button className="btn btn-success" onClick={() => logIn()} type="submit">LogIn</button>
-            )
-        }
-    }
 
+    }
     useEffect(() => {
-        setUserData(JSON.parse(localStorage.getItem('username')));
-    }, [state])
+        userHandler();
+    }, [state]);
+
 
     const logOut = () => {
         localStorage.clear();
         history('/');
     }
     const logIn = () => {
+        localStorage.clear();
         history('/');
     }
 
@@ -59,9 +68,6 @@ const Navbar = () => {
                         </li>
                         <li className="nav-item">
                             <NavLink to="/Cart" aria-current="page" className={({ isActive }) => (isActive ? 'active nav-link disabled' : 'inactive nav-link disabled')} end>Cart</NavLink>
-                        </li>
-                        <li className="nav-item">
-                            <NavLink to="/Admin" aria-current="page" className={({ isActive }) => (isActive ? 'active nav-link btn btn-primary' : 'inactive nav-link btn btn-primary')} end>Admin</NavLink>
                         </li>
                         <form className="d-flex ms-5" role="search">
                             <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />

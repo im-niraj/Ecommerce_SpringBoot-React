@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { userLogin } from '../../api/authenticationService';
 import { useNavigate } from 'react-router-dom';
-import { authenticate, authFailure, authSuccess, authLogout } from '../../redux/authActions';
+import { authenticate, authFailure, authSuccess, userInfoLost } from '../../redux/authActions';
 import { useDispatch, useSelector } from 'react-redux'
 import './login.css';
 
@@ -54,7 +54,7 @@ const Login = () => {
     };
     const logOut = () => {
         localStorage.clear();
-        dispatch(authLogout());
+        dispatch(userInfoLost());
         history('/');
     }
 
