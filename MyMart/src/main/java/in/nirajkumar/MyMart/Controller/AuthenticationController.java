@@ -2,9 +2,9 @@ package in.nirajkumar.MyMart.Controller;
 
 import in.nirajkumar.MyMart.Model.User;
 import in.nirajkumar.MyMart.config.JWTTokenHelper;
-import in.nirajkumar.MyMart.requests.AuthenticationRequest;
-import in.nirajkumar.MyMart.responses.LoginResponse;
-import in.nirajkumar.MyMart.responses.UserInfo;
+import in.nirajkumar.MyMart.dto.requests.AuthenticationRequest;
+import in.nirajkumar.MyMart.dto.responses.LoginResponse;
+import in.nirajkumar.MyMart.dto.responses.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;

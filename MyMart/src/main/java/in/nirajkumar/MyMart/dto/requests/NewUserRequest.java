@@ -1,4 +1,4 @@
-package in.nirajkumar.MyMart.requests;
+package in.nirajkumar.MyMart.dto.requests;
 
 import lombok.Getter;
 

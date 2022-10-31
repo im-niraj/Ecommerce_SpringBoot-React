@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { createNewAccount } from '../../api/authenticationService';
+import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
     const userData = {
@@ -16,15 +17,22 @@ const Signup = () => {
         streetAndLandmark: '',
         isAdmin: false
     }
+    const history = useNavigate();
+
 
     const [userDetails, setUserDetails] = useState(userData);
     const createAccount = (e) => {
         e.preventDefault();
         console.log(userDetails);
         createNewAccount(userDetails).then(res => {
-            console.log(res.data);
+            if (res.status === 201) {
+                console.log(res);
+                alert(res.data);
+                setUserDetails(userData);
+                history('/');
+            }
         })
-        // setUserDetails(userData);
+
     }
 
     const inputHandler = (e) => {
@@ -45,6 +53,7 @@ const Signup = () => {
 
     return (
         <div className='container col-md-6'>
+
             <div className='my-3'><h1 style={{ color: 'blue', fontWeight: 'bold' }}>Create new account</h1></div>
             <form className="row g-3" onSubmit={createAccount}>
                 <div className="col-md-6">

@@ -1,4 +1,4 @@
-package in.nirajkumar.MyMart.responses;
+package in.nirajkumar.MyMart.dto.responses;
 
 import lombok.Getter;
 import lombok.Setter;

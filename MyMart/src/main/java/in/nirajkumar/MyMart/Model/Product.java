@@ -1,14 +1,7 @@
 package in.nirajkumar.MyMart.Model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import lombok.*;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -25,4 +18,8 @@ public class Product {
     private String brand;
     private String category;
     private String image;
+
+    @ManyToOne
+    @JoinColumn(name = "seller_id")
+    private Seller seller;
 }

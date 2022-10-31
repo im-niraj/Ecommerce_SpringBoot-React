@@ -12,11 +12,12 @@ import java.util.*;
 @Entity
 @Getter
 @Setter
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Integer id;
 
     @Column(name = "USER_NAME", unique = true)
     private String userName;

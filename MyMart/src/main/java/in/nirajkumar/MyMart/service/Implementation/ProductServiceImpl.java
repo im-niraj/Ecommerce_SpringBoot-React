@@ -1,7 +1,9 @@
 package in.nirajkumar.MyMart.service.Implementation;
 
 import in.nirajkumar.MyMart.Dao.ProductRepository;
+import in.nirajkumar.MyMart.Dao.UserRepository;
 import in.nirajkumar.MyMart.Model.Product;
+import in.nirajkumar.MyMart.Model.Seller;
 import in.nirajkumar.MyMart.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,8 +17,13 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
-    public String addNewProduct(Product product) {
+    public String addNewProduct(Product product, int sellerId) {
+        Seller seller = (Seller) userRepository.findById(sellerId).get();
+        product.setSeller(seller);
         productRepository.save(product);
         return "Product Added successfully";
     }
@@ -27,39 +34,44 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public String deleteProduct(int id) {
-        Optional<Product> opt = productRepository.findById(id);
-        if(opt.isPresent()){
-            productRepository.deleteById(id);
-            return "Product Deleted Successfully...";
-        }
+    public List<Product> getAllProductBySeller(int sellerId) {
+        return productRepository.findBySellerId(sellerId);
+    }
+
+    @Override
+    public String deleteProduct(int productId, int sellerId) {
+//        Optional<Product> opt = productRepository.findById(id);
+//        if(opt.isPresent()){
+//            productRepository.deleteById(id);
+//            return "Product Deleted Successfully...";
+//        }
         return "Product id is invalid";
     }
 
     @Override
-    public Product getProductById(int id) {
-        return productRepository.findById(id).get();
+    public Product getProductById(int productId, int sellerId) {
+        return productRepository.findById(productId).get();
     }
 
     @Override
-    public String updateProduct(int id, Product product) {
-        Optional<Product> opt = productRepository.findById(id);
-        if(opt.isPresent()){
-            product.setId(id);
-            productRepository.save(opt.get());
-            return "Product Updated";
-        }
+    public String updateProduct(int productId, int sellerId, Product product) {
+//        Optional<Product> opt = productRepository.findById(id);
+//        if(opt.isPresent()){
+//            product.setId(id);
+//            productRepository.save(opt.get());
+//            return "Product Updated";
+//        }
         return "Product id is invalid";
     }
 
     @Override
-    public String updatePrice(int id, double price) {
-        Optional<Product> opt = productRepository.findById(id);
-        if(opt.isPresent()){
-            opt.get().setPrice(price);
-            productRepository.save(opt.get());
-            return "Product Price Updated";
-        }
+    public String updatePrice(int productId, int sellerId, double price) {
+//        Optional<Product> opt = productRepository.findById(id);
+//        if(opt.isPresent()){
+//            opt.get().setPrice(price);
+//            productRepository.save(opt.get());
+//            return "Product Price Updated";
+//        }
         return "Product id is invalid";
     }
 }
