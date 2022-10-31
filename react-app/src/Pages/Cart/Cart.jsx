@@ -28,10 +28,11 @@ function Cart() {
                                 </div>
                                 <div className="col-md-6">
                                     <div className="card-body">
-                                        <p className='text-muted '>{el.product.brand}</p>
+                                        <p className='text-muted fw-bold '>{el.product.brand}</p>
                                         <h5 className="card-title">{el.product.itemTitle}</h5>
-                                        <p className="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                        <p className="card-text"><small className="text-muted">Price : <span>{parseFloat(el.product.price).toFixed(2)}</span></small></p>
+                                        <small className="text-primary fs-6">{el.product.category}</small>
+                                        <p className="card-text">{el.product.description}</p>
+                                        <p className="card-text"><small className="text-muted fw-bold ">Price : <span>{parseFloat(el.product.price).toFixed(2)}</span></small></p>
                                     </div>
                                 </div>
                                 <div className="col-md-3">
