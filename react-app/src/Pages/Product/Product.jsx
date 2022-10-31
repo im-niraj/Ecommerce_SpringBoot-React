@@ -9,7 +9,6 @@ const Product = (props) => {
     const product = state.selectedProductReducer;
     const { productId } = useParams();
     const dispatch = useDispatch();
-    console.log(productId);
     useEffect(() => {
         if (productId && productId !== "") {
             getProductById(productId, state.userInfo.user.userId).then(res => {
