@@ -17,9 +17,9 @@ public class CartController {
     @Autowired
     private CartItemService cartItemService;
 
-    @PostMapping("/addProductToCart/{productId}/{cartId}")
-    public ResponseEntity<String> addProductToCart(@PathVariable int  productId, @PathVariable int cartId){
-        return new ResponseEntity<>(cartItemService.addProductToCart(productId, cartId), HttpStatus.CREATED);
+    @PostMapping("/addProductToCart/{productId}/{buyerId}")
+    public ResponseEntity<String> addProductToCart(@PathVariable int  productId, @PathVariable int buyerId){
+        return new ResponseEntity<>(cartItemService.addProductToCart(productId, buyerId), HttpStatus.CREATED);
     }
 
     @GetMapping("/cart_products/{cartId}")

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
-import { getProductById } from '../../api/authenticationService';
+import { addProductToCart, getProductById } from '../../api/authenticationService';
 import { removeSelectedProduct, selectedProduct } from '../../redux/authActions'
 
 const Product = (props) => {
@@ -20,6 +20,14 @@ const Product = (props) => {
             dispatch(removeSelectedProduct());
         }
     }, [productId]);
+
+
+    const addToCart = () => {
+        addProductToCart(productId, state.userInfo.user.userId).then(res => {
+            alert(res.data);
+        })
+    }
+
     return (
         <div className="container text-center ">
             <div className="d-flex border-bottom">
@@ -33,7 +41,7 @@ const Product = (props) => {
                     <hr />
                     <div className='d-flex justify-content-between'>
                         <h4>&#8377; {product.price}</h4>
-                        <button className='btn btn-primary'>Add to cart</button>
+                        <button className='btn btn-primary' onClick={addToCart}>Add to cart</button>
                     </div>
 
                 </div>

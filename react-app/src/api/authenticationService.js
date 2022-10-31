@@ -79,3 +79,14 @@ export const deleteProductById = (productId, sellerId) => {
         }
     })
 }
+
+
+export const addProductToCart = (productId, buyerId) => {
+    return axios({
+        method: 'POST',
+        url: `${process.env.hostUrl || 'http://localhost:8080'}/api/v1/user/addProductToCart/${productId}/${buyerId}`,
+        headers: {
+            'Authorization': 'Bearer ' + getToken()
+        },
+    })
+}
