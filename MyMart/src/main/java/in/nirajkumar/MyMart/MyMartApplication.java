@@ -14,14 +14,13 @@ import java.util.List;
 
 @SpringBootApplication
 public class MyMartApplication {
-	@Autowired
-	private UserRepository userRepository;
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+//	@Autowired
+//	private UserRepository userRepository;
+//	@Autowired
+//	private PasswordEncoder passwordEncoder;
 
 	public static void main(String[] args) {
 		SpringApplication.run(MyMartApplication.class, args);
-
 	}
 
 
@@ -50,13 +49,13 @@ public class MyMartApplication {
 //		user.setAuthorities(authorityList);
 //		userRepository.save(user);
 //	}
-
-
-	private Authority createAuthority(String roleCode,String roleDescription) {
-		Authority authority=new Authority();
-		authority.setRoleCode(roleCode);
-		authority.setRoleDescription(roleDescription);
-		return authority;
-	}
+//
+//
+//	private Authority createAuthority(String roleCode,String roleDescription) {
+//		Authority authority=new Authority();
+//		authority.setRoleCode(roleCode);
+//		authority.setRoleDescription(roleDescription);
+//		return authority;
+//	}
 
 }

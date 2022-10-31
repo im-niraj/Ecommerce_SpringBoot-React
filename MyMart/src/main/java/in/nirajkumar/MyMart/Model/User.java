@@ -6,9 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Table(name = "AUTH_USER_DETAILS")
 @Entity
@@ -45,16 +43,24 @@ public class User implements UserDetails {
     @Column(name = "phone_number")
     private String phoneNumber;
 
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Address> addresses = new ArrayList<>();
+
     @Column(name = "enabled")
     private boolean enabled=true;
-
 
     @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinTable(name = "AUTH_USER_AUTHORITY",
             joinColumns = @JoinColumn(referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(referencedColumnName ="id"))
-    private List<Authority> authorities;
+    private Set<Authority> authorities = new HashSet<>();
 
+
+
+    public Set<Authority> addAuthority() {
+        return authorities;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -36,7 +36,7 @@ function Homepage(props) {
             <div className="d-flex flex-wrap align-content-stretch justify-center">
                 {data.map(({ id, itemTitle, category, price, image }) => (
                     <div key={id} className="card ms-2 my-2" style={{ width: "18rem", height: "27rem" }} onClick={() => productDetails(id)}>
-                        <div style={{ height: "250px", width: "100%", overflow: "hidden" }}>
+                        <div style={{ height: "fit-content", width: "100%", overflow: "hidden" }}>
                             <img src={image} style={{ width: "100%", objectFit: 'cover' }} className="card-img-top img-fluid" alt={itemTitle} />
                         </div>
                         <div className="card-body">
@@ -44,15 +44,9 @@ function Homepage(props) {
                             <p className="card-text m-0">{category}</p>
                             <h5 className='mt-2'>&#8377;<span className='text-danger'>{price}</span></h5>
                         </div>
-                        <div className="mb-2 align-bottom ms-2 ">
-                            <a href="#" className="btn btn-primary">Add to Cart</a>
-                        </div>
                     </div>
                 ))}
             </div>
-
-
-
         </div>
     );
 }

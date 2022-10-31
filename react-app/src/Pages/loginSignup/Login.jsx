@@ -66,37 +66,43 @@ const Login = () => {
         dispatch(userInfoLost());
         history('/');
     }
+    const signup = () => {
+        localStorage.clear();
+        dispatch(userInfoLost());
+        history('/signup');
+    }
 
     useEffect(() => {
         logOut();
     }, []);
 
     return (
+        <>
+            <button className='btn btn-warning ms-3 my-3' onClick={signup} >Signup</button>
+            <form className=" gx-3 gy-2 align-items-center w-100 p-3" onSubmit={handleSubmit} noValidate={false}>
 
-        <form className=" gx-3 gy-2 align-items-center w-100 p-3" onSubmit={handleSubmit} noValidate={false}>
-
-            <div className="col-sm-3 mt-3">
-                <div className="input-group">
-                    <div className="input-group-text">Username</div>
-                    <input type="text" className="form-control" id="userName" name='userName' value={loginData.userName} onChange={handleChange} placeholder="Username" />
+                <div className="col-sm-3 mt-3">
+                    <div className="input-group">
+                        <div className="input-group-text">Username</div>
+                        <input type="text" className="form-control" id="userName" name='userName' value={loginData.userName} onChange={handleChange} placeholder="Username" />
+                    </div>
                 </div>
-            </div>
-            <div className="col-sm-3 mt-3">
-                <div className="input-group">
-                    <div className="input-group-text">Password&nbsp;</div>
-                    <input type="password" className="form-control" id="password" name='password' value={loginData.password} onChange={handleChange} placeholder="Password" />
+                <div className="col-sm-3 mt-3">
+                    <div className="input-group">
+                        <div className="input-group-text">Password&nbsp;</div>
+                        <input type="password" className="form-control" id="password" name='password' value={loginData.password} onChange={handleChange} placeholder="Password" />
+                    </div>
                 </div>
-            </div>
-            <div className="col-auto mt-3">
-                <button type="submit" className="btn btn-primary">Submit</button>
-                {state.loading && (
-                    <span className="ms-2 fw-bold">Loading...</span>
-                )}
+                <div className="col-auto mt-3">
+                    <button type="submit" className="btn btn-primary">Submit</button>
+                    {state.loading && (
+                        <span className="ms-2 fw-bold">Loading...</span>
+                    )}
 
-            </div>
+                </div>
 
-        </form>
-
+            </form>
+        </>
     );
 }
 

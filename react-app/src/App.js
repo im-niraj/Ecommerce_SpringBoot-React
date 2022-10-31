@@ -10,6 +10,7 @@ import About from "./Pages/About/About";
 import { useDispatch } from "react-redux";
 import { userInfoFetched } from "./redux/authActions";
 import Product from "./Pages/Product/Product";
+import Singnup from "./Pages/loginSignup/Signup";
 function App() {
     const dispatch = useDispatch();
 
@@ -27,6 +28,7 @@ function App() {
                 <Route exact path="/Admin" element={<Admin />} />
                 <Route exact path="/About" element={<About />} />
                 <Route exact path="/product/:productId" element={<Product />} />
+                <Route exact path="/signup" element={<Singnup />} />
             </Routes>
             <Footer />
         </BrowserRouter>

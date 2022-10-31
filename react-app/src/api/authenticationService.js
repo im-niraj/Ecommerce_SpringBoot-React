@@ -12,6 +12,13 @@ export const userLogin = (loginData) => {
         data: loginData
     })
 }
+export const createNewAccount = (signupData) => {
+    return axios({
+        method: 'POST',
+        url: `${process.env.hostUrl || 'http://localhost:8080'}/api/v1/signup`,
+        data: signupData
+    })
+}
 
 export const fetchUserData = () => {
     return axios({
