@@ -1,5 +1,7 @@
 package in.nirajkumar.MyMart.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.Nationalized;
 
@@ -28,5 +30,6 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "seller_id")
+    @JsonIgnore
     private Seller seller;
 }

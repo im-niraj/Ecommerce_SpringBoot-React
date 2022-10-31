@@ -60,11 +60,12 @@ public class CartItemServiceImpl implements CartItemService {
     }
 
     @Override
-    public List<Cart_items> cartProducts(int cartId) {
-//        Optional<Cart> optCart = cartRepository.findById(cartId);
-//        if(optCart.isPresent()){
-//            return optCart.get().getItems();
-//        }
+    public List<Cart_items> cartProducts(int buyerId) {
+        Buyer buyer =(Buyer)userRepository.findById(buyerId).get();
+        System.out.println(buyer.getCart_items().toString());
+        if(buyer.getCart_items().size() > 0){
+            return buyer.getCart_items();
+        }
         return new ArrayList<>();
     }
 

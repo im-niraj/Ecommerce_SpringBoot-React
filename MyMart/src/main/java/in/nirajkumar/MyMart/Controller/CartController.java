@@ -22,9 +22,9 @@ public class CartController {
         return new ResponseEntity<>(cartItemService.addProductToCart(productId, buyerId), HttpStatus.CREATED);
     }
 
-    @GetMapping("/cart_products/{cartId}")
-    public ResponseEntity<List<Cart_items>> cartProducts(@PathVariable int cartId){
-        return new ResponseEntity<>(cartItemService.cartProducts(cartId), HttpStatus.OK);
+    @GetMapping("/cart_products/{buyerId}")
+    public ResponseEntity<List<Cart_items>> cartProducts(@PathVariable int buyerId){
+        return new ResponseEntity<>(cartItemService.cartProducts(buyerId), HttpStatus.OK);
     }
 
     @DeleteMapping("/removeProductFromCartById/{productId}/{cartId}")

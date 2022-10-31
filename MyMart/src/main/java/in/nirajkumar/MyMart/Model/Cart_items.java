@@ -1,5 +1,6 @@
 package in.nirajkumar.MyMart.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,6 +21,7 @@ public class Cart_items {
 
     @ManyToOne
     @JoinColumn(name = "buyer_id")
+    @JsonIgnore
     private Buyer buyer;
 
     private int quantity;

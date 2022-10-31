@@ -90,3 +90,13 @@ export const addProductToCart = (productId, buyerId) => {
         },
     })
 }
+
+export const cartItems = (buyerId) => {
+    return axios({
+        method: 'GET',
+        url: `${process.env.hostUrl || 'http://localhost:8080'}/api/v1/user/cart_products/${buyerId}`,
+        headers: {
+            'Authorization': 'Bearer ' + getToken()
+        }
+    })
+}

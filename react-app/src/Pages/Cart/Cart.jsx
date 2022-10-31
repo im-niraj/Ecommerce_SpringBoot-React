@@ -1,38 +1,54 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { cartItems } from '../../api/authenticationService';
 import './Cart.css';
 
 function Cart() {
+    const state = useSelector((state) => state);
+    const [cartItem, setCartItem] = useState([]);
+    useEffect(() => {
+        if (Object.keys(state.userInfo).length > 0) {
+            cartItems(state.userInfo.user.userId).then(res => {
+                setCartItem(res.data);
+                console.log(res);
+            })
+        }
+    }, [state])
 
     return (
         <div className='container my-4'>
-            <div className="card mb-3" style={{ maxWidth: "740px" }}>
-                <div className="row g-0">
-                    <div className="col-md-3">
-                        <img src='https://rukminim1.flixcart.com/image/416/416/l4ei1e80/memory-card/microsdhc/o/h/a/mi210-hp-original-imagfaffktzghqtt.jpeg?q=70' className="img-fluid rounded-start" alt="..." />
-                    </div>
-                    <div className="col-md-6">
-                        <div className="card-body">
-                            <h5 className="card-title">Card title</h5>
-                            <p className="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                            <p className="card-text"><small class="text-muted">Price : <span>1250.00</span></small></p>
+            {cartItem && cartItem.map(({ product }) => (
+                <div key={product.id} className="card mb-3" style={{ maxWidth: "740px" }}>
+                    <div className="row g-0">
+                        <div className="col-md-3">
+                            <img src={product.image} className="img-fluid rounded-start" alt="..." />
                         </div>
-                    </div>
-                    <div className="col-md-3">
-                        <div className="card-body">
-                            <h4 className="card-title">Total Price</h4>
-                            <p className="card-title"><span>1250</span> * <span>12</span> = <span>5550</span> </p>
-                            <div className='d-flex align-items-center justify-content-between mb-4'>
-                                <i class="fa fa-minus-circle text-secondary fs-3 " aria-hidden="true"></i>
-                                <span className='fs-2 text-center border border-4 rounded-3 w-50' >12</span>
-                                <i class="fa fa-plus-circle text-secondary fs-3" aria-hidden="true"></i>
+                        <div className="col-md-6">
+                            <div className="card-body">
+                                <p>{product.brnad}</p>
+                                <h5 className="card-title">{product.itemTitle}</h5>
+                                <p className="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                <p className="card-text"><small className="text-muted">Price : <span>1250.00</span></small></p>
                             </div>
-                            <button className='btn btn-danger'>Delete</button>
                         </div>
-                    </div>
+                        <div className="col-md-3">
+                            <div className="card-body">
+                                <h4 className="card-title">Total Price</h4>
+                                <p className="card-title"><span>1250</span> * <span>12</span> = <span>5550</span> </p>
+                                <div className='d-flex align-items-center justify-content-between mb-4'>
+                                    <i role="button" className="fa fa-minus-circle text-secondary fs-3 " aria-hidden="true"></i>
+                                    <span className='fs-2 text-center border border-4 rounded-3 w-50' >12</span>
+                                    <i role="button" className="fa fa-plus-circle text-secondary fs-3" aria-hidden="true"></i>
+                                </div>
+                                <button className='btn btn-danger'>Delete</button>
+                            </div>
+                        </div>
 
+                    </div>
                 </div>
-            </div>
+            ))}
+
         </div>
     );
 }
