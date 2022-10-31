@@ -8,6 +8,7 @@ import in.nirajkumar.MyMart.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,11 +41,18 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public String deleteProduct(int productId, int sellerId) {
-//        Optional<Product> opt = productRepository.findById(id);
-//        if(opt.isPresent()){
-//            productRepository.deleteById(id);
-//            return "Product Deleted Successfully...";
-//        }
+        List<Product> list = productRepository.findBySellerId(sellerId);
+        boolean isAvailable = false;
+        for(Product p : list){
+            if(p.getId() == productId){
+                isAvailable = true;
+                break;
+            }
+        }
+        if(isAvailable){
+            productRepository.deleteById(productId);
+            return "Product Deleted Successfully...";
+        }
         return "Product id is invalid";
     }
 

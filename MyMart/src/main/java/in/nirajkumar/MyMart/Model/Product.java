@@ -1,6 +1,8 @@
 package in.nirajkumar.MyMart.Model;
 
 import lombok.*;
+import org.hibernate.annotations.Nationalized;
+
 import javax.persistence.*;
 
 @Entity
@@ -14,7 +16,12 @@ public class Product {
     private int id;
     private String itemTitle;
     private double price;
+
+    //long text data type
+    @Lob
+    @Nationalized
     private String description;
+
     private String brand;
     private String category;
     private String image;

@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @RestController
 @RequestMapping("/admin")
@@ -16,33 +15,37 @@ public class AdminController {
     @Autowired
     private ProductService productService;
 
-    @PostMapping("/addProduct")
-    public ResponseEntity<String> addNewProduct(@RequestBody Product product){
-        return new ResponseEntity<String>(productService.addNewProduct(product), HttpStatus.CREATED);
+    @PostMapping("/addProduct/{sellerId}")
+    public ResponseEntity<String> addNewProduct(@RequestBody Product product, @PathVariable int sellerId){
+        return new ResponseEntity<String>(productService.addNewProduct(product, sellerId), HttpStatus.CREATED);
     }
 
     @GetMapping("/allProduct")
     public ResponseEntity<?> getAllProduct(){
         return ResponseEntity.ok(productService.getAllProduct());
     }
-
-    @DeleteMapping("/deleteProduct/{id}")
-    public ResponseEntity<String> deleteProduct(@PathVariable int id){
-        return new ResponseEntity<>(productService.deleteProduct(id), HttpStatus.ACCEPTED);
+    @GetMapping("/getAllProductBySeller/{sellerId}")
+    public ResponseEntity<?> getAllProductBySeller( @PathVariable int sellerId){
+        return ResponseEntity.ok(productService.getAllProductBySeller(sellerId));
     }
 
-    @GetMapping("/product/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable int id){
-        return new ResponseEntity<Product>(productService.getProductById(id), HttpStatus.OK);
+    @DeleteMapping("/deleteProduct/{productId}/{sellerId}")
+    public ResponseEntity<String> deleteProduct(@PathVariable int productId, @PathVariable int sellerId){
+        return new ResponseEntity<>(productService.deleteProduct(productId,sellerId), HttpStatus.ACCEPTED);
     }
 
-    @PutMapping("/updateProduct/{id}")
-    public ResponseEntity<String> updateProduct(@PathVariable int id, @RequestBody Product product){
-        return new ResponseEntity<String>(productService.updateProduct(id, product), HttpStatus.ACCEPTED);
+    @GetMapping("/product/{productId}/{sellerId}")
+    public ResponseEntity<Product> getProductById(@PathVariable int productId, @PathVariable int sellerId){
+        return new ResponseEntity<Product>(productService.getProductById(productId ,sellerId), HttpStatus.OK);
     }
 
-    @PutMapping("/updatePrice/{id}")
-    public ResponseEntity<String> updatePrice(int id, double price){
-        return new ResponseEntity<String>(productService.updatePrice(id, price), HttpStatus.ACCEPTED);
-    }
+//    @PutMapping("/updateProduct/{id}")
+//    public ResponseEntity<String> updateProduct(@PathVariable int id, @RequestBody Product product){
+//        return new ResponseEntity<String>(productService.updateProduct(id, product), HttpStatus.ACCEPTED);
+//    }
+//
+//    @PutMapping("/updatePrice/{id}")
+//    public ResponseEntity<String> updatePrice(int id, double price){
+//        return new ResponseEntity<String>(productService.updatePrice(id, price), HttpStatus.ACCEPTED);
+//    }
 }

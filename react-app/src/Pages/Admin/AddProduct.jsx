@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { addProduct } from '../../api/authenticationService';
+import { useSelector } from 'react-redux';
 const noImage = "https://www.ncenet.com/wp-content/uploads/2020/04/no-image-png-2.png";
 
 const AddProduct = () => {
+    const state = useSelector((state) => state);
     const [imagePreview, setImagePreview] = useState('');
     const [newProductValue, setNewProductValue] = useState({
         itemTitle: '',
@@ -15,7 +17,8 @@ const AddProduct = () => {
     // This is iPhone 12 mini  front 12mp camera and Rear 12mp+12mp camera
     const addProducts = (evt) => {
         evt.preventDefault();
-        addProduct(newProductValue).then((res) => {
+        // console.log(userId);
+        addProduct(newProductValue, state.userInfo.user.userId).then((res) => {
             console.log("Server response: ", res.data);
             clearInputField();
         }).catch(err => {

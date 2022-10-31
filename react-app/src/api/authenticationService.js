@@ -30,10 +30,10 @@ export const fetchUserData = () => {
     })
 }
 
-export const addProduct = (newProductData) => {
+export const addProduct = (newProductData, sellerId) => {
     return axios({
         method: 'POST',
-        url: `${process.env.hostUrl || 'http://localhost:8080'}/admin/addProduct`,
+        url: `${process.env.hostUrl || 'http://localhost:8080'}/admin/addProduct/${sellerId}`,
         headers: {
             'Authorization': 'Bearer ' + getToken()
         },
@@ -49,20 +49,31 @@ export const getAllProduct = () => {
         }
     })
 }
-export const getProductById = (productId) => {
+
+export const getAllProductBySeller = (sellerId) => {
     return axios({
         method: 'GET',
-        url: `${process.env.hostUrl || 'http://localhost:8080'}/admin/product/${productId}`,
+        url: `${process.env.hostUrl || 'http://localhost:8080'}/admin/getAllProductBySeller/${sellerId}`,
         headers: {
             'Authorization': 'Bearer ' + getToken()
         }
     })
 }
 
-export const deleteProductById = (productId) => {
+export const getProductById = (productId, sellerId) => {
+    return axios({
+        method: 'GET',
+        url: `${process.env.hostUrl || 'http://localhost:8080'}/admin/product/${productId}/${sellerId}`,
+        headers: {
+            'Authorization': 'Bearer ' + getToken()
+        }
+    })
+}
+
+export const deleteProductById = (productId, sellerId) => {
     return axios({
         method: 'DELETE',
-        url: `${process.env.hostUrl || 'http://localhost:8080'}/admin/deleteProduct/${productId}`,
+        url: `${process.env.hostUrl || 'http://localhost:8080'}/admin/deleteProduct/${productId}/${sellerId}`,
         headers: {
             'Authorization': 'Bearer ' + getToken()
         }

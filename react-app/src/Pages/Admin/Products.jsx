@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { getAllProduct, deleteProductById } from '../../api/authenticationService'
+import { useSelector } from 'react-redux';
+import { getAllProductBySeller, deleteProductById } from '../../api/authenticationService'
 const Products = () => {
-
+    const state = useSelector((state) => state);
     const [product, setProducts] = useState([]);
     const [deleteFlag, setDeleteFlag] = useState(false);
     const [productId, setProductId] = useState('');
 
 
     useEffect(() => {
-        getAllProduct().then(response => {
+        getAllProductBySeller(state.userInfo.user.userId).then(response => {
             setProducts(response.data);
         })
     }, [deleteFlag]);
@@ -20,7 +21,7 @@ const Products = () => {
 
     const deleteProduct = () => {
         if (productId !== '') {
-            deleteProductById(productId).then(res => {
+            deleteProductById(productId, state.userInfo.user.userId).then(res => {
                 setDeleteFlag(!deleteFlag);
             });
         }
@@ -49,17 +50,17 @@ const Products = () => {
 
                         <tr key={item.id}>
                             <td>{i + 1}</td>
-                            <td className='text-truncate'>{item.itemTitle}</td>
+                            <td className='text-truncate' style={{ maxWidth: '150px' }}>{item.itemTitle}</td>
                             <td>{item.brand}</td>
                             <td>{item.category}</td>
                             <td>{item.price}</td>
-                            <td className='text-truncate'>{item.description}</td>
+                            <td className='text-truncate' style={{ maxWidth: '190px' }}>{item.description}</td>
                             <td className='d-flex justify-content-center'>
                                 <button onClick={() => editProduct(item.id)} className='btn btn-outline-primary'><i className="fa fa-pencil" aria-hidden="true"></i></button>
                                 <button onClick={() => setId(item.id)} data-bs-toggle="modal" data-bs-target="#staticBackdrop" className='btn btn-outline-danger ms-2'><i className="fa fa-trash" aria-hidden="true"></i></button>
                             </td>
                             <td>
-                                <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="staticBackdropLabel" aria-hidden="false">
                                     <div className="modal-dialog">
                                         <div className="modal-content">
                                             <div className="modal-header">
@@ -82,8 +83,6 @@ const Products = () => {
                     }
                 </tbody>
             </table>
-
-
         </>
     )
 }

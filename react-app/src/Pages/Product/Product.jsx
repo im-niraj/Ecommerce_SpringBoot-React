@@ -5,13 +5,14 @@ import { getProductById } from '../../api/authenticationService';
 import { removeSelectedProduct, selectedProduct } from '../../redux/authActions'
 
 const Product = (props) => {
-    const product = useSelector(state => state.selectedProductReducer);
+    const state = useSelector((state) => state);
+    const product = state.selectedProductReducer;
     const { productId } = useParams();
     const dispatch = useDispatch();
     console.log(productId);
     useEffect(() => {
         if (productId && productId !== "") {
-            getProductById(productId).then(res => {
+            getProductById(productId, state.userInfo.user.userId).then(res => {
                 dispatch(selectedProduct(res.data));
             })
         }
