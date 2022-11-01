@@ -27,9 +27,14 @@ public class CartController {
         return new ResponseEntity<>(cartItemService.cartProducts(buyerId), HttpStatus.OK);
     }
 
-    @DeleteMapping("/removeProductFromCartById/{productId}/{cartId}")
-    public ResponseEntity<String> removeProductFromCartById(@PathVariable int productId, @PathVariable int cartId){
-        return new ResponseEntity<>(cartItemService.removeProductFromCartById(productId, cartId), HttpStatus.ACCEPTED);
+    @DeleteMapping("/removeProductFromCartById/{productId}/{buyerId}")
+    public ResponseEntity<String> removeProductFromCartById(@PathVariable int productId, @PathVariable int buyerId){
+        return new ResponseEntity<>(cartItemService.removeProductFromCartById(productId, buyerId), HttpStatus.ACCEPTED);
+    }
+
+    @DeleteMapping("/deleteProductFromCartById/{productId}/{buyerId}")
+    public ResponseEntity<String> deleteProductFromCartById(@PathVariable int productId,@PathVariable int buyerId){
+        return new ResponseEntity<>(cartItemService.deleteProductFromCartById(productId, buyerId), HttpStatus.ACCEPTED);
     }
 
 }

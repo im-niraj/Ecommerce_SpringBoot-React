@@ -1,25 +1,71 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { cartItems } from '../../api/authenticationService';
+import { useSelector, useDispatch } from 'react-redux';
+import { cartItems, addProductToCart, removeProductFromCartById, deleteProductFromCartById } from '../../api/authenticationService';
+import { cartItemCount } from '../../redux/authActions';
 import './Cart.css';
 
 function Cart() {
+    const dispatch = useDispatch();
     const state = useSelector((state) => state);
     const [cartItem, setCartItem] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
+
+    const fetchCartItems = () => {
+        cartItems(state.userInfo.user.userId).then(res => {
+            setCartItem(res.data);
+            dispatch(cartItemCount(res.data.length));
+            console.log(res);
+            let sum = 0;
+            res.data.forEach(e => {
+                sum += (e.quantity * e.product.price);
+            })
+            setTotalPrice(sum);
+        })
+    }
+    const deleteCartItem = (productId) => {
+        deleteProductFromCartById(productId, state.userInfo.user.userId).then(res => {
+            alert(res.data);
+            fetchCartItems();
+        }).catch(err => {
+            console.log("Error-Handle: ", err)
+        })
+    }
     useEffect(() => {
         if (Object.keys(state.userInfo).length > 0) {
-            cartItems(state.userInfo.user.userId).then(res => {
-                setCartItem(res.data);
-                console.log(res);
-                res.data.forEach(e => {
-                    setTotalPrice(sum => sum + (e.quantity * e.product.price));
-                })
+            fetchCartItems();
+        }
+    }, [state]);
+
+
+
+    const increseQuantity = (productId, currQty) => {
+        console.log(productId);
+        if (currQty < 4) {
+            addProductToCart(productId, state.userInfo.user.userId).then(res => {
+                fetchCartItems();
+            }).catch(err => {
+                console.log("Error-Handle: ", err);
             })
         }
-    }, [state])
-    // "col-md-4 position-static top-10 bottom-0 h-100"style={{ maxHeight: "100vh" }}
+        else {
+            alert("Maximum allowed quantity 4");
+        }
+    }
+    const decreseQuantity = (productId, currQty) => {
+        console.log(productId);
+        if (currQty <= 1) {
+            alert("Delete the product by clicking on delete button");
+        }
+        else {
+            removeProductFromCartById(productId, state.userInfo.user.userId).then(res => {
+                fetchCartItems();
+            }).catch(err => {
+                console.log("Error-Handle: ", err);
+            })
+        }
+    }
+
     return (
         <div className='container my-4' style={{ minHeight: "calc(100vh - 184px)", maxHeight: "calc(100vh - 184px)" }}>
             <div className="row">
@@ -48,11 +94,11 @@ function Cart() {
                                             <h4 className="card-title">Total Price</h4>
                                             <p className="card-title"><span>{el.product.price}</span> * <span>{el.quantity}</span> = <span>{el.product.price * el.quantity}</span> </p>
                                             <div className='d-flex align-items-center justify-content-between mb-4'>
-                                                <i role="button" className="fa fa-minus-circle text-secondary fs-3 " aria-hidden="true"></i>
+                                                <i role="button" onClick={() => decreseQuantity(el.product.id, el.quantity)} className={`fa fa-minus-circle  fs-3 ${el.quantity <= 1 ? "text-light" : "text-info"}`} aria-hidden="true"></i>
                                                 <span className='fs-2 text-center border border-4 rounded-3 w-50' >{el.quantity}</span>
-                                                <i role="button" className="fa fa-plus-circle text-secondary fs-3" aria-hidden="true"></i>
+                                                <i role="button" onClick={() => increseQuantity(el.product.id, el.quantity)} className={`fa fa-plus-circle  fs-3 ${el.quantity >= 4 ? "text-light" : "text-info"}`} aria-hidden="true"></i>
                                             </div>
-                                            <button className='btn btn-danger'>Delete</button>
+                                            <button onClick={() => deleteCartItem(el.product.id)} className='btn btn-danger'>Delete</button>
                                         </div>
                                     </div>
 

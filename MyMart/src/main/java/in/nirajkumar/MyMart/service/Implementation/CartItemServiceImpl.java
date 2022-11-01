@@ -8,6 +8,7 @@ import in.nirajkumar.MyMart.Model.Cart_items;
 import in.nirajkumar.MyMart.Model.Product;
 import in.nirajkumar.MyMart.service.CartItemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -62,7 +63,6 @@ public class CartItemServiceImpl implements CartItemService {
     @Override
     public List<Cart_items> cartProducts(int buyerId) {
         Buyer buyer =(Buyer)userRepository.findById(buyerId).get();
-        System.out.println(buyer.getCart_items().toString());
         if(buyer.getCart_items().size() > 0){
             return buyer.getCart_items();
         }
@@ -70,29 +70,27 @@ public class CartItemServiceImpl implements CartItemService {
     }
 
     @Override
-    public String removeProductFromCartById(int productId, int cartId) {
-//        Optional<Cart> optCart = cartRepository.findById(cartId);
-//        if(optCart.isPresent()){
-//            List<Item> list = optCart.get().getItems();
-//
-//            if(list.size() > 0){
-//                Iterator<Item> itr = list.iterator();
-//                while (itr.hasNext()){
-//                    Item  item = itr.next();
-//                    if(item.getProduct().getId() == productId){
-//                        if(item.getQuantity() > 1){
-//                           item.setQuantity(item.getQuantity()-1);
-//                        }
-//                        else{
-//                            itr.remove();
-//                        }
-//                    }
-//                }
-//                cartRepository.save(optCart.get());
-//                return "Product removed from cart";
-//            }
-//            return "Product is not available";
-//        }
-        return "cart is not available";
+    public String removeProductFromCartById(int productId, int buyerId) {
+        Buyer buyer =(Buyer)userRepository.findById(buyerId).get();
+        if(buyer.getCart_items().size() > 0){
+            Cart_items cart_items = cartRepository.findByProductId(productId);
+            cart_items.setQuantity(cart_items.getQuantity()-1);
+            cartRepository.save(cart_items);
+        }
+        return "Product removed successfully";
+    }
+
+    @Override
+    public String deleteProductFromCartById(int productId, int buyerId) {
+        Buyer buyer =(Buyer)userRepository.findById(buyerId).get();
+        System.out.println(buyerId+" "+productId);
+        if(buyer.getCart_items().size() > 0){
+            List<Cart_items> list = buyer.getCart_items();
+            Cart_items cartItem = cartRepository.findByProductId(productId);
+            list.remove(cartItem);
+            userRepository.save(buyer);
+            cartRepository.deleteById(cartItem.getCartID());
+        }
+        return "Product deleted from cart";
     }
 }

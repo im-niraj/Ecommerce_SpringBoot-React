@@ -79,7 +79,25 @@ export const deleteProductById = (productId, sellerId) => {
         }
     })
 }
+export const removeProductFromCartById = (productId, buyerId) => {
+    return axios({
+        method: 'DELETE',
+        url: `${process.env.hostUrl || 'http://localhost:8080'}/api/v1/user/removeProductFromCartById/${productId}/${buyerId}`,
+        headers: {
+            'Authorization': 'Bearer ' + getToken()
+        }
+    })
+}
 
+export const deleteProductFromCartById = (productId, sellerId) => {
+    return axios({
+        method: 'DELETE',
+        url: `${process.env.hostUrl || 'http://localhost:8080'}/api/v1/user/deleteProductFromCartById/${productId}/${sellerId}`,
+        headers: {
+            'Authorization': 'Bearer ' + getToken()
+        }
+    })
+}
 
 export const addProductToCart = (productId, buyerId) => {
     return axios({
