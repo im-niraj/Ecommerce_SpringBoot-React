@@ -32,7 +32,7 @@ function Homepage(props) {
     }
 
     return (
-        <div className='container'>
+        <div className='container' style={{ minHeight: "80vh" }}>
             <div className="d-flex flex-wrap align-content-stretch justify-center">
                 {data.map(({ id, itemTitle, category, price, image }) => (
                     <div key={id} className="card ms-2 my-2" style={{ width: "18rem", height: "27rem" }} onClick={() => productDetails(id)}>
