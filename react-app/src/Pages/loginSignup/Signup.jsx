@@ -52,7 +52,8 @@ const Signup = () => {
 
 
     return (
-        <div className='container col-md-6'>
+        <div className='container col-md-6' style={{ minHeight: "80vh" }}>
+
 
             <div className='my-3'><h1 style={{ color: 'blue', fontWeight: 'bold' }}>Create new account</h1></div>
             <form className="row g-3" onSubmit={createAccount}>

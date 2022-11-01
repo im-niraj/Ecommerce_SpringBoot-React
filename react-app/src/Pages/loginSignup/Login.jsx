@@ -86,17 +86,17 @@ const Login = () => {
     }, []);
 
     return (
-        <>
+        <div style={{ minHeight: "80vh" }} className='col-8 mx-auto'>
             <button className='btn btn-warning ms-3 my-3' onClick={signup} >Signup</button>
             <form className=" gx-3 gy-2 align-items-center w-100 p-3" onSubmit={handleSubmit} noValidate={false}>
 
-                <div className="col-sm-3 mt-3">
+                <div className="col-sm-6 mt-3">
                     <div className="input-group">
                         <div className="input-group-text">Username</div>
                         <input type="text" className="form-control" id="userName" name='userName' value={loginData.userName} onChange={handleChange} placeholder="Username" />
                     </div>
                 </div>
-                <div className="col-sm-3 mt-3">
+                <div className="col-sm-6 mt-3">
                     <div className="input-group">
                         <div className="input-group-text">Password&nbsp;</div>
                         <input type="password" className="form-control" id="password" name='password' value={loginData.password} onChange={handleChange} placeholder="Password" />
@@ -111,7 +111,7 @@ const Login = () => {
                 </div>
 
             </form>
-        </>
+        </div>
     );
 }
 
