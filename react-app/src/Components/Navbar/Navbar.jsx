@@ -26,7 +26,7 @@ const Navbar = () => {
                             <li className="nav-item ">
                                 <NavLink to="/Cart" aria-current="page" className={({ isActive }) => (isActive ? 'active btn btn-primary position-relative' : 'inactive btn btn-primary position-relative')} end>Cart
                                     <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark">
-                                        99
+                                        {state.cartItemCount > 0 ? state.cartItemCount : ''}
                                     </span>
                                 </NavLink>
                             </li>

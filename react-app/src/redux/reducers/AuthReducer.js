@@ -39,6 +39,13 @@ export const userInfo = (state = {}, action) => {
         default: return state;
     }
 }
+export const cartItemCount = (state = 0, action) => {
+    switch (action.type) {
+        case ActionType.CART_COUNTER_UPDATE:
+            return action.payload
+        default: return state;
+    }
+}
 
 
 export const selectedProductReducer = (state = {}, { type, payload }) => {

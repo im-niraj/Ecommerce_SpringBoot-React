@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { userLogin, fetchUserData } from '../../api/authenticationService';
+import { userLogin, fetchUserData, cartItems } from '../../api/authenticationService';
 import { useNavigate } from 'react-router-dom';
-import { authenticate, authFailure, authSuccess, userInfoLost, userInfoFetched } from '../../redux/authActions';
+import { authenticate, authFailure, authSuccess, userInfoLost, userInfoFetched, cartItemCount } from '../../redux/authActions';
 import { useDispatch, useSelector } from 'react-redux'
 import './login.css';
 
@@ -26,6 +26,15 @@ const Login = () => {
                     const data = response.data;
                     localStorage.setItem("UserData", JSON.stringify(data));
                     dispatch(userInfoFetched(response.data));
+
+                    response.data.roles.forEach(e => {
+                        if (e.authority === 'USER') {
+                            cartItems(response.data.userId).then(res => {
+                                dispatch(cartItemCount(res.data.length));
+                            })
+                        }
+                    })
+                    console.log(response.data);
                     history('/home')
                 }).catch((e) => {
                     dispatch(userInfoLost());

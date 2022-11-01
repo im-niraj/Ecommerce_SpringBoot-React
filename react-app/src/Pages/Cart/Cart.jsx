@@ -7,11 +7,15 @@ import './Cart.css';
 function Cart() {
     const state = useSelector((state) => state);
     const [cartItem, setCartItem] = useState([]);
+    const [totalPrice, setTotalPrice] = useState(0);
     useEffect(() => {
         if (Object.keys(state.userInfo).length > 0) {
             cartItems(state.userInfo.user.userId).then(res => {
                 setCartItem(res.data);
                 console.log(res);
+                res.data.forEach(e => {
+                    setTotalPrice(sum => sum + (e.quantity * e.product.price));
+                })
             })
         }
     }, [state])
@@ -21,7 +25,7 @@ function Cart() {
             <div className="row">
                 <div className="col-md-8  top-10  mh-100" >
                     <div className='overflow-scroll' style={{ maxHeight: "calc(100vh - 184px)" }}>
-                        {cartItem && cartItem.map(el => (
+                        {cartItem && cartItem.map((el, index) => (
                             <div key={el.product.id} className="card mb-3" style={{ maxWidth: "840px" }}>
                                 <div className="row g-0">
                                     <div className="col-md-3">
@@ -29,7 +33,10 @@ function Cart() {
                                     </div>
                                     <div className="col-md-6">
                                         <div className="card-body">
-                                            <p className='text-muted fw-bold '>{el.product.brand}</p>
+                                            <div className='d-flex justify-content-between'>
+                                                <p className='text-muted fw-bold '>{el.product.brand}</p>
+                                                <p className='text-danger fw-bold '> Product <span>{index + 1}</span></p>
+                                            </div>
                                             <h5 className="card-title">{el.product.itemTitle}</h5>
                                             <small className="text-primary fs-6">{el.product.category}</small>
                                             <p className="card-text text-truncate">{el.product.description}</p>
@@ -56,7 +63,7 @@ function Cart() {
                 </div>
                 <div className="col-md-4 position-static top-10 bottom-0 ">
                     <h1>Checkout</h1>
-                    <h5>Total price</h5>
+                    <h5>Total price:  <span>{totalPrice}</span></h5>
                     <p className='text-muted'>Delivery Address</p>
                     <button className='btn btn-warning'>checkout</button>
                 </div>

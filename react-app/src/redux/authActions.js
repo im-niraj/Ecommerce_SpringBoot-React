@@ -55,3 +55,9 @@ export const removeSelectedProduct = () => {
         type: ActionType.REMOVE_SELECTED_PRODUCT,
     };
 };
+export const cartItemCount = (count) => {
+    return {
+        type: ActionType.CART_COUNTER_UPDATE,
+        payload: count
+    }
+}
