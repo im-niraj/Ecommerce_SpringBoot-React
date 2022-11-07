@@ -90,7 +90,7 @@ function Cart() {
                                 <p className='m-0'>Looks like you haven't added</p>
                                 <p className='m-0'>anything to your cart yet</p>
                             </div>
-                            <div class="d-grid gap-2 col-2 mx-auto mt-5">
+                            <div className="d-grid gap-2 col-2 mx-auto mt-5">
                                 <button onClick={() => gotoShoping()} className="btn btn-primary" type="button">Shop Now</button>
                             </div>
                         </div>

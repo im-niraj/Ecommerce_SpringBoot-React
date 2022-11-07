@@ -16,4 +16,5 @@ public class NewUserRequest {
     private String pincode;
     private String streetAndLandmark;
     private Boolean isAdmin;
+
 }

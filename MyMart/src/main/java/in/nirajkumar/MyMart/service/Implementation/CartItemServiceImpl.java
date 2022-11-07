@@ -8,7 +8,6 @@ import in.nirajkumar.MyMart.Model.Cart_items;
 import in.nirajkumar.MyMart.Model.Product;
 import in.nirajkumar.MyMart.service.CartItemService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -71,13 +70,18 @@ public class CartItemServiceImpl implements CartItemService {
 
     @Override
     public String removeProductFromCartById(int productId, int buyerId) {
-        Buyer buyer =(Buyer)userRepository.findById(buyerId).get();
-        if(buyer.getCart_items().size() > 0){
-            Cart_items cart_items = cartRepository.findByProductId(productId);
-            cart_items.setQuantity(cart_items.getQuantity()-1);
-            cartRepository.save(cart_items);
+        Cart_items cart_item = cartRepository.findByProductIdAndBuyerId(productId,buyerId);
+        if(cart_item != null){
+            if(cart_item.getQuantity() > 1){
+                cart_item.setQuantity(cart_item.getQuantity()-1);
+                cartRepository.save(cart_item);
+                return "Product removed successfully";
+            }
+            else {
+                deleteProductFromCartById(productId, buyerId);
+            }
         }
-        return "Product removed successfully";
+        return "Record not found";
     }
 
     @Override
@@ -86,10 +90,10 @@ public class CartItemServiceImpl implements CartItemService {
         System.out.println(buyerId+" "+productId);
         if(buyer.getCart_items().size() > 0){
             List<Cart_items> list = buyer.getCart_items();
-            Cart_items cartItem = cartRepository.findByProductId(productId);
-            list.remove(cartItem);
+            Cart_items cart_item = cartRepository.findByProductIdAndBuyerId(productId,buyerId);
+            list.remove(cart_item);
             userRepository.save(buyer);
-            cartRepository.deleteById(cartItem.getCartID());
+            cartRepository.deleteById(cart_item.getCartID());
         }
         return "Product deleted from cart";
     }

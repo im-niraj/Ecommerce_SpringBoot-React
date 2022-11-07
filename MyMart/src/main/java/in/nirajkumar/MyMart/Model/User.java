@@ -58,7 +58,6 @@ public class User implements UserDetails {
     private Set<Authority> authorities = new HashSet<>();
 
 
-
     public Set<Authority> addAuthority() {
         return authorities;
     }

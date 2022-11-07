@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
-import { addProductToCart, getProductById } from '../../api/authenticationService';
+import { addProductToCart, getProductById, cartItems } from '../../api/authenticationService';
 import { removeSelectedProduct, selectedProduct, cartItemCount } from '../../redux/authActions'
 
 const Product = (props) => {
@@ -9,6 +9,13 @@ const Product = (props) => {
     const product = state.selectedProductReducer;
     const { productId } = useParams();
     const dispatch = useDispatch();
+
+    const fetchCartItems = () => {
+        cartItems(state.userInfo.user.userId).then(res => {
+            dispatch(cartItemCount(res.data.length));
+            console.log(res);
+        })
+    }
     useEffect(() => {
         if (productId && productId !== "") {
             getProductById(productId, state.userInfo.user.userId).then(res => {
@@ -23,13 +30,14 @@ const Product = (props) => {
 
     const addToCart = () => {
         addProductToCart(productId, state.userInfo.user.userId).then(res => {
-
             alert(res.data);
+            fetchCartItems();
         })
     }
 
     return (
-        <div className="container text-center ">
+
+        <div className="container text-center " style={{ minHeight: "80vh" }}>
             <div className="d-flex border-bottom">
                 <div className="col-5 offset-md-1 ">
                     <img src={product.image} alt="" style={{ width: "100%" }} />
