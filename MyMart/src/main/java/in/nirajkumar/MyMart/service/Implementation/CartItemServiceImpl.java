@@ -87,7 +87,6 @@ public class CartItemServiceImpl implements CartItemService {
     @Override
     public String deleteProductFromCartById(int productId, int buyerId) {
         Buyer buyer =(Buyer)userRepository.findById(buyerId).get();
-        System.out.println(buyerId+" "+productId);
         if(buyer.getCart_items().size() > 0){
             List<Cart_items> list = buyer.getCart_items();
             Cart_items cart_item = cartRepository.findByProductIdAndBuyerId(productId,buyerId);
