@@ -1,6 +1,7 @@
 package in.nirajkumar.MyMart.Controller;
 
 import in.nirajkumar.MyMart.dto.requests.NewUserRequest;
+import in.nirajkumar.MyMart.exception.UsernameAlreadyExistsException;
 import in.nirajkumar.MyMart.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,10 @@ public class UserController {
 
     @PostMapping("/signup")
     public ResponseEntity<String> createNewAccount(@RequestBody NewUserRequest newUserRequest){
-        return new ResponseEntity<>(userService.createNewAccount(newUserRequest), HttpStatus.CREATED);
+        try {
+            return new ResponseEntity<>(userService.createNewAccount(newUserRequest), HttpStatus.CREATED);
+        } catch (UsernameAlreadyExistsException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 }

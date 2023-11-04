@@ -6,6 +6,7 @@ import in.nirajkumar.MyMart.Dao.CartItemRepository;
 import in.nirajkumar.MyMart.Dao.UserRepository;
 import in.nirajkumar.MyMart.Model.*;
 import in.nirajkumar.MyMart.dto.requests.NewUserRequest;
+import in.nirajkumar.MyMart.exception.UsernameAlreadyExistsException;
 import in.nirajkumar.MyMart.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,7 @@ public class UserServiceImpl implements UserService {
         Address address = modelMapper.map(newUserRequest, Address.class);
         if (newUserRequest.getIsAdmin()){
             Seller seller = modelMapper.map(newUserRequest, Seller.class);
+            //encode the password
             seller.setPassword(passwordEncoder.encode(seller.getPassword()));
             seller.setCreatedAt(new Date());
             Authority authority = authorityRepository.findByRoleCode("ADMIN");

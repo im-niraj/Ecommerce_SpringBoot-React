@@ -32,6 +32,7 @@ function Homepage(props) {
     }
 
     return (
+
         <div className='container' style={{ minHeight: "80vh" }}>
             <div className="d-flex flex-wrap">
                 {data.map(({ id, itemTitle, category, price, image }) => (
