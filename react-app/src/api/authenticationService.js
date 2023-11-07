@@ -118,3 +118,24 @@ export const cartItems = (buyerId) => {
         }
     })
 }
+
+export const completeUserPurchase = async (userId, productId) => {
+    try {
+        const response = await axios.post(
+            `${process.env.REACT_APP_HOST_URL || 'http://localhost:8080'}/api/purchases/complete`,
+            null, // POST请求的body如果没有可以传递null
+            {
+                params: {
+                    userId: userId,
+                    productId: productId
+                },
+                headers: {
+                    'Authorization': 'Bearer ' + getToken()
+                }
+            }
+        );
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};

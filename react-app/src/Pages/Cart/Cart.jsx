@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { cartItems, addProductToCart, removeProductFromCartById, deleteProductFromCartById } from '../../api/authenticationService';
 import { cartItemCount } from '../../redux/authActions';
 import emptyCartImage from "../../assets/emptycart.png";
+import { completeUserPurchase } from '../../api/authenticationService';
 import './Cart.css';
 
 function Cart() {
@@ -55,6 +56,28 @@ function Cart() {
             alert("Maximum allowed quantity 4");
         }
     }
+
+    const handleCheckout = async () => {
+        try {
+            const productsToDelete = [];
+            // 假设您需要购买购物车中的所有商品
+            for (let item of cartItem) {
+                const purchaseResult = await completeUserPurchase(state.userInfo.user.userId, item.product.id);
+                // 这里可以处理purchaseResult
+                productsToDelete.push(item.product.id);
+            }
+            alert("All items purchased successfully!");
+            // 这里您可以清空购物车，并刷新以显示最新状态
+            for (let productId of productsToDelete) {
+                await deleteProductFromCartById(productId, state.userInfo.user.userId);
+            }
+            setCartItem([]);
+            setTotalPrice(0);
+        } catch (error) {
+            alert(`Error completing purchase: ${error.response?.data?.message || error.message}`);
+        }
+    };
+
     const decreseQuantity = (productId, currQty) => {
         console.log(productId);
         if (currQty <= 1) {
@@ -140,7 +163,7 @@ function Cart() {
                                 <h1>Checkout</h1>
                                 <h5>Total price:  <span>{totalPrice}</span></h5>
                                 <p className='text-muted'>Delivery Address</p>
-                                <button className='btn btn-warning'>checkout</button>
+                                <button className='btn btn-warning' onClick={handleCheckout}>Checkout</button>
                             </div>
                         </div>
                     )
