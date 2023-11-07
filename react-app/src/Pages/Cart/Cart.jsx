@@ -73,6 +73,7 @@ function Cart() {
             }
             setCartItem([]);
             setTotalPrice(0);
+            fetchCartItems()
         } catch (error) {
             alert(`Error completing purchase: ${error.response?.data?.message || error.message}`);
         }
