@@ -27,6 +27,10 @@ function Cart() {
             setTotalPrice(sum);
         })
     }
+    const sanitizeInput = (input) => {
+        const re = /[`'";\-\[\]{}()*&%$#@!~]/g; // 此正则表达式可以根据需要调整
+        return input.replace(re, '');
+    };
     const deleteCartItem = (productId) => {
         deleteProductFromCartById(productId, state.userInfo.user.userId).then(res => {
             alert(res.data);
@@ -60,13 +64,23 @@ function Cart() {
     const handleCheckout = async () => {
         try {
             const productsToDelete = [];
+            let allPurchasesSuccessful = true; // 标记所有购买是否都成功了
             // 假设您需要购买购物车中的所有商品
             for (let item of cartItem) {
+                const userId = sanitizeInput(state.userInfo.user.userId);
+                const productId = sanitizeInput(item.product.id);
                 const purchaseResult = await completeUserPurchase(state.userInfo.user.userId, item.product.id);
                 // 这里可以处理purchaseResult
-                productsToDelete.push(item.product.id);
+                if (purchaseResult.success) {
+                    productsToDelete.push(item.product.id);
+                } else {
+                    allPurchasesSuccessful = false;
+                    alert(`Error purchasing item ${item.product.itemTitle}: ${purchaseResult.message}`);
+                    // 如果有一个购买失败，你可能想要中断后续购买操作
+                    break;
+                }
             }
-            alert("All items purchased successfully!");
+
             // 这里您可以清空购物车，并刷新以显示最新状态
             for (let productId of productsToDelete) {
                 await deleteProductFromCartById(productId, state.userInfo.user.userId);
@@ -75,7 +89,14 @@ function Cart() {
             setTotalPrice(0);
             fetchCartItems()
         } catch (error) {
-            alert(`Error completing purchase: ${error.response?.data?.message || error.message}`);
+            if (error.response?.status === 429) {
+                // 处理速率限制错误
+                const retryAfter = error.response.headers['x-rate-limit-retry-after-seconds'];
+                alert(`Rate limit exceeded. Try again in ${retryAfter} seconds.`);
+            } else {
+                // 处理其他错误
+                alert(`Error completing purchase: ${error.response?.data?.message || error.message}`);
+            }
         }
     };
 
